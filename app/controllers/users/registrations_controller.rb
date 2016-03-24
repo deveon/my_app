@@ -19,14 +19,17 @@ class Users::RegistrationsController < Devise::RegistrationsController
    end
 
   # GET /resource/edit
-  # def edit
-  #   super
-  # end
+   def edit
+    @user = current_user
+   end
 
   # PUT /resource
-  # def update
-  #   super
-  # end
+   def update
+    current_user.update_without_password(user_params)
+    sign_in(current_user, :bypass => true)
+    flash.notice = "Profile successfully uptaded"
+    respond_with current_user
+   end
 
   # DELETE /resource
   # def destroy
@@ -35,6 +38,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation, :username, :fullname)
+  end
+
+  def log_in_as (user)
+    session[:user_id] = user.id
   end
 
   # GET /resource/cancel

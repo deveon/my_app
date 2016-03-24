@@ -6,5 +6,7 @@
        EMAIL: <%= @user.email %>
       </h1>
     </section>
+    <%= render partial: "comments/comments", locals: {commentable: @user} %>
+    <%= render partial: "comments/form", locals: {commentable: @user} %>
   </aside>
 </div>
